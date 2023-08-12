@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({        // le schéma pour ma bdd avec les valeurs à true pour obliger ces éléments. 
     email: {
         type: String,
         required: true,
