@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { signup } = require('../../controllers/signupController');
 
-router.post('/', (req, res) => {
-    res.send('Inscription réussie!');
-});
+router.post('/', signup);
 
 module.exports = router;

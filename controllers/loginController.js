@@ -12,10 +12,10 @@ exports.login = async (req, res) => {
         if (!isMatch) {
             throw new Error('Unable to login');
         }
-        res.send({ user });
+        const token = await user.generateAuthToken(); //je génère le token après vérif du log et du pass.
+        res.send({ user, token }); //je renvois le user et le tokena au front );
     } catch (error) {
         res.status(400).send(error.message);
     }
-    const token = await user.generateAuthToken(); //je génère le token après vérif du log et du pass.
-    res.send({ user, token }); //je renvois le user et le tokena au front 
+    
 };

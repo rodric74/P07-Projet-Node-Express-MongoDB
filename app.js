@@ -3,6 +3,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 
+app.use(express.json());
+
+
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -10,7 +13,7 @@ mongoose.connect(process.env.MONGODB_URI, {
     console.log("Connected to MongoDB Atlas!");
   }).catch(err => {
     console.error("Error connecting to MongoDB Atlas: ", err.message);
-  });
+});
 
 const signupRoute = require('./routes/auth/signup');
 const loginRoute = require('./routes/auth/login');
