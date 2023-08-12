@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-const userSchema = new mongoose.Schema({        // le schéma pour ma bdd avec les valeurs à true pour obliger ces éléments. 
+
+const userSchema = new mongoose.Schema({        // le schéma pour ma bdd avec les valeurs à true pour obliger ces paramètres. 
     email: {
         type: String,
         required: true,
@@ -21,5 +23,13 @@ userSchema.pre('save', async function(next) {
     }
     next();
 });
+
+//Générer un token pour un utilisateur donnée. 
+userSchema.methods.generateAuthToken = async function() {                   
+    const user = this;   // this = référence de l'utilisateur pr lequel on génère un token.
+    //utiliser la clé secrete pr le token                                                   
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    return token;
+};
 
 module.exports = mongoose.model('User', userSchema);

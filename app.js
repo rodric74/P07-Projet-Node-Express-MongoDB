@@ -24,7 +24,7 @@ app.use('/auth/login', loginRoute);
 app.use('/books', booksRoute);
 app.use('/books', bookRoute);
 app.use('/books/bestrating', bestRatingRoute);
-app.use('/books', ratingRoute);
+app.use('/books/rating', ratingRoute);
 
 
 module.exports = app;
