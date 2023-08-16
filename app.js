@@ -6,31 +6,24 @@ const cors = require('cors');
 
 app.use(express.json());
 
-
+// Connexion à MongoDB Atlas
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-  }).then(() => {
+}).then(() => {
     console.log("Connected to MongoDB Atlas!");
-  }).catch(err => {
+}).catch(err => {
     console.error("Error connecting to MongoDB Atlas: ", err.message);
 });
 
 app.use(cors());
 
-const signupRoute = require('./routes/auth/signup');
-const loginRoute = require('./routes/auth/login');
-const booksRoute = require('./routes/books/index');
-const bookRoute = require('./routes/books/book');
-const bestRatingRoute = require('./routes/books/bestrating');
-const ratingRoute = require('./routes/books/rating');
+// Importation des routes
+const authRoutes = require('./routes/authRoutes'); // Fusionné signup et login
+const booksRoute = require('./routes/book'); // Toutes les routes de livres sont maintenant ici
 
-app.use('/api/auth/signup', signupRoute);
-app.use('/api/auth/login', loginRoute);
-app.use('/api/books', booksRoute);
-app.use('/api/books', bookRoute);
-app.use('/api/books/bestrating', bestRatingRoute);
-app.use('/api/books/rating', ratingRoute);
-
+// Utilisation des routes
+app.use('/api/auth', authRoutes); // Gère à la fois signup et login
+app.use('/api/books', booksRoute); // Gère toutes les routes liées aux livres
 
 module.exports = app;

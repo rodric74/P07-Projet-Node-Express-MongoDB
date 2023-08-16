@@ -23,6 +23,7 @@ Le site "Mon Vieux Grimoire" offre aux lecteurs la possibilité de créer des li
 ## 💡 **Technologies utilisées**
 - **Backend** : Node.js, Express, MongoDB.
 - **Authentification** : Sécurisée avec token JWT.
+- **Hachage du password**: Sécurisée avec bcrypt.
 - 🖼️ **Gestion d'images** : Utilisation de Multer pour le téléchargement et l'optimisation des images.
 
 ## 🌐 **Spécifications de l'API**
@@ -31,11 +32,11 @@ Le site "Mon Vieux Grimoire" offre aux lecteurs la possibilité de créer des li
 
 ## 🔒 **Sécurité**
 - 🔐 Hachage du mot de passe utilisateur.
-- Authentification renforcée sur toutes les routes nécessaires.
+- Authentification renforcée sur toutes les routes nécessaires.(à faire)
 - 📧 Adresses électroniques uniques dans la base de données.
 
 ## 🚧 **Progression du Projet**
-Je travaille actuellement sur ce projet et je valide étape par étape en suivant le cours "Passez au Full Stack avec Node.js, Express et MongoDB". 
+Je travaille actuellement sur ce projet et je valide étape par étape en suivant le cours "Passez au Full Stack avec Node.js, Express et MongoDB"de OpenClassRooms. 
 
 ### Étape 1 : Mise en place de l’application
 - [x] **Étape 1.1** : Créez un serveur Express simple - 20% de progression
