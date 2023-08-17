@@ -1,19 +1,15 @@
 const jwt = require('jsonwebtoken');
 
-const authMiddleware = (req, res, next) => {
-    const token = req.header('Authorization').replace('Bearer ', '');
-    
-    if (!token) {
-        return res.status(401).send({ error: 'Please authenticate!' });
-    }
-
+module.exports = (req, res, next) => {
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
+        const token = req.headers.authorization.split(' ')[1];
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        req.auth = {
+            userId: decodedToken._id
+        };
         next();
-    } catch (error) {
-        res.status(401).send({ error: 'Please authenticate!' });
+    } catch(error) {
+        console.log("Token verification failed:", error.message);
+        res.status(401).json({ error: 'Please authenticate!' });
     }
 };
-
-module.exports = authMiddleware;
