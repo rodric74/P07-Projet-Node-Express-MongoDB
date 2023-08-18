@@ -13,6 +13,8 @@ exports.getAllBooks = (req, res, next) => {
 
 // Création d'un nouveau livre
 exports.createBook = (req, res, next) => {
+    console.log('Received book data:', req.body);
+    console.log('User ID from authentication:', req.auth.userId);
     // Analyse du corps de la requête pour obtenir les informations du livre
     const bookObject = JSON.parse(req.body.book);
     // Suppression des propriétés non nécessaires (si elles existent)
@@ -22,13 +24,17 @@ exports.createBook = (req, res, next) => {
     const book = new Book({
         ...bookObject,
         userId: req.auth.userId,  // Ajout de l'ID de l'utilisateur qui crée le livre (obtenu à partir du token JWT)
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`  // Génération de l'URL de l'image
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,  // Génération de l'URL de l'image
+        averageRating:0
     });
 
     // Sauvegarde du livre dans la base de données
     book.save()
         .then(() => res.status(201).json({ message: 'Livre enregistré !' }))
-        .catch(error => res.status(400).json({ error }));
+        .catch(error => {
+            console.log('Error while saving book:', error);
+            res.status(400).json({ error, message: 'Error while saving book' });
+        });
 };
 
 exports.updateBook = (req, res, next) => {
