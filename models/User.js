@@ -28,7 +28,7 @@ userSchema.pre('save', async function(next) {
 userSchema.methods.generateAuthToken = async function() {                   
     const user = this;   // this = référence de l'utilisateur pr lequel on génère un token.
     //utiliser la clé secrete pr le token                                                   
-    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: '24h' });
     return token;
 };
 

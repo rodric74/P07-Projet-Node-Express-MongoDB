@@ -5,6 +5,7 @@ const app = express();
 const cors = require('cors');
 
 app.use(express.json());
+app.use('/images', express.static('images'));
 
 // Connexion à MongoDB Atlas
 mongoose.connect(process.env.MONGODB_URI, {

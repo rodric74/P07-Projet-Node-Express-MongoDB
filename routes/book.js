@@ -4,6 +4,8 @@ const bookController = require('../controllers/bookController');
 const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 
+
+
 // Route pour créer un nouveau livre (Authentification requise)
 router.post('/', auth, multer, bookController.createBook);
 
