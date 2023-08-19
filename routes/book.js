@@ -19,7 +19,7 @@ router.get('/bestrating', bookController.getBestRatedBooks);
 router.put('/:id', auth, bookController.updateBook);
 
 // Route pour obtenir les détails d'un livre spécifique (Authentification requise)
-router.get('/:id', auth, bookController.getBookById);
+router.get('/:id', bookController.getBookById);
 
 // Route pour supprimer un livre spécifique (Authentification requise)
 router.delete('/:id', auth, bookController.deleteBook);
