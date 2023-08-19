@@ -87,10 +87,16 @@ exports.getAllBooks = (req, res, next) => {
 
 exports.rateBook = (req, res) => {
     console.log(req.body);
-    const grade = req.body.grade;
+    const grade = parseFloat(req.body.grade);
     console.log("Grade:", grade);
-    if (!grade || isNaN(grade) || grade < 0 || grade > 5) {
-        return res.status(400).json({ message: 'Note invalide!' });
+    if (!grade) {
+        return res.status(400).json({ message: 'La note est absente ou invalide.' });
+    }
+    if (isNaN(grade)) {
+        return res.status(400).json({ message: 'La note n\'est pas un nombre.' });
+    }
+    if (grade < 0 || grade > 5) {
+        return res.status(400).json({ message: 'La note doit être comprise entre 0 et 5.' });
     }
     Book.findOne({ _id: req.params.id })
         .then((book) => {
