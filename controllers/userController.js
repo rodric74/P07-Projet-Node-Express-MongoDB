@@ -1,36 +1,43 @@
-const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-exports.signup = async (req, res) => {      // utilisation de async pr la clarté du code et aussi attendre opérations qui prennent du temps. 
-    try{
-        const user = new User(req.body);    // je crée une nouvelle instance d'utilisateur avec le mail et le pass. 
-        await user.save();                  // je save le user dans la base en async pr la gestion du temps. 
-        res.status(201).send({ user});      // ça passe je renvois un 201
-    }catch(err){
-        if (err.code === 11000) {           // Si email déjà utilisé. 
-            return res.status(400).send({ error: 'Error, please try again' });
-        }
-        res.status(400).send({ error: err.message });  
-    }
+const User = require('../models/User')
 
-};
+exports.signup = (req, res, next) => {
+    bcrypt.hash(req.body.password, 10)
+      .then(hash => {
+        const user = new User({
+          email: req.body.email,
+          password: hash
+        });
+        user.save()
+          .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+          .catch(error => res.status(400).json({ error }));
+      })
+      .catch(error => res.status(500).json({ error }));
+  };
 
-exports.login = async (req, res) => {
-    try {
-        const { email, password } = req.body; //j'extrais l'email et le pass du corps de la requête. 
-        const user = await User.findOne({ email });// je cherche l'utilisateur ds la base de donnée. 
-        if (!user) {
-            throw new Error('Unable to login');
-        }
-        const isMatch = await bcrypt.compare(password, user.password);//je compare avec bcrypt le pass du user et celui de la base.
-        if (!isMatch) {
-            throw new Error('Unable to login');
-        }
-        const token = await user.generateAuthToken(); //je génère le token après vérif du log et du pass.
-        res.send({ user, token }); //je renvois le user et le token au front-end );
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-    
-};
+  exports.login = (req, res, next) => {
+    User.findOne({ email: req.body.email })
+        .then(user => {
+            if (!user) {
+                return res.status(401).json({ message: 'Paire login/mot de passe incorrecte'});
+            }
+            bcrypt.compare(req.body.password, user.password)
+                .then(valid => {
+                    if (!valid) {
+                        return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' });
+                    }
+                    res.status(200).json({
+                        userId: user._id,
+                        token: jwt.sign(
+                            {userId: user._id},
+                            'JWT_SECRET',
+                            { expiresIn: '24h'}
+                        )
+                    });
+                })
+                .catch(error => res.status(500).json({ error }));
+        })
+        .catch(error => res.status(500).json({ error }));
+ };
