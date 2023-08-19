@@ -87,7 +87,7 @@ exports.getAllBooks = (req, res, next) => {
 
 exports.rateBook = (req, res) => {
     console.log(req.body);
-    const grade = parseFloat(req.body.grade);
+    const grade = parseFloat(req.body.rating);
     console.log("Grade:", grade);
     if (!grade) {
         return res.status(400).json({ message: 'La note est absente ou invalide.' });
@@ -117,7 +117,7 @@ exports.rateBook = (req, res) => {
             book.averageRating = totalRatings / book.ratings.length;
             book.save()
                 .then(() => {
-                    res.status(200).json({ message: 'Livre noté!' });
+                    res.status(200).json(book);
                 })
                 .catch(error => {
                     res.status(400).json({ error });
