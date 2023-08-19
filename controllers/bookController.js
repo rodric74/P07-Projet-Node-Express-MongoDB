@@ -1,15 +1,6 @@
 // Importation du modèle Book
 const Book = require('../models/Book');
 
-// Récupération de tous les livres
-exports.getAllBooks = (req, res, next) => {
-    // Utilisation de la méthode find() pour obtenir tous les livres
-    // L'utilisation de populate() permet de récupérer également les informations de l'utilisateur qui a créé le livre (dans ce cas, l'email)
-    Book.find()
-        .populate('userId', 'email')
-        .then(books => res.status(200).json(books))
-        .catch(error => res.status(400).json({ error }));
-};
 
 // Création d'un nouveau livre
 exports.createBook = (req, res, next) => {
@@ -37,54 +28,56 @@ exports.createBook = (req, res, next) => {
         });
 };
 
-exports.updateBook = (req, res, next) => {
-    console.log('Updating book', req.params.id);  // <-- Log here
 
+// Fonction pour mettre à jour un livre
+exports.updateBook = (req, res, next) => {
+    // Log pour indiquer le début du processus de mise à jour avec l'ID du livre concerné
+    console.log('Updating book', req.params.id); 
+
+    // Vérification si un fichier (image) a été inclus dans la requête
+    // Si oui, on construit l'objet du livre en y incluant l'URL de l'image
     const bookObject = req.file ? {
         ...JSON.parse(req.body.book),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...req.body };
+    } : { ...req.body };  // Sinon, on utilise le corps de la requête tel quel
 
-    console.log('Parsed book object:', bookObject);  // <-- Log here
+    // Log pour afficher l'objet du livre analysé
+    console.log('Parsed book object:', bookObject);  
 
+    // Suppression de la propriété _userId qui n'est pas nécessaire pour la mise à jour
     delete bookObject._userId;
 
+    // Recherche du livre dans la base de données à l'aide de son ID
     Book.findOne({ _id: req.params.id })
         .then((book) => {
-            console.log('Book found:', book);  // <-- Log here
+            // Log pour indiquer que le livre a été trouvé
+            console.log('Book found:', book);  
             
+            // Vérification si le livre existe dans la base de données
             if (!book) {
                 return res.status(404).json({ message: 'Livre non trouvé' });
             }
 
+            // Vérification de l'autorisation : l'utilisateur actuellement connecté est-il le propriétaire du livre ?
             if (book.userId != req.auth.userId) {
                 return res.status(401).json({ message: 'Not authorized' });
             } 
             
+            // Mise à jour du livre dans la base de données
             return Book.updateOne({ _id: req.params.id }, { ...bookObject, _id: req.params.id })
         })
         .then(() => {
-            console.log('Book updated successfully');  // <-- Log here
+            // Log pour indiquer que le livre a été mis à jour avec succès
+            console.log('Book updated successfully');  
             res.status(200).json({ message: 'Livre modifié!' });
         })
         .catch(error => {
-            console.log('Error:', error);  // <-- Log here
+            // Log en cas d'erreur pendant le processus
+            console.log('Error:', error);  
             res.status(400).json({ error });
         });
 };
 
-
-// Récupération d'un livre spécifique par ID
-exports.getBookById = (req, res) => {
-    Book.findOne({ _id: req.params.id })
-        .then((book) => {
-            if (!book) {
-                return res.status(404).json({ message: 'Livre non trouvé!' });
-            }
-            res.status(200).send(book);
-        })
-        .catch(error => res.status(400).json({ error }));
-};
 
 // Suppression d'un livre
 exports.deleteBook = (req, res) => {
@@ -99,6 +92,29 @@ exports.deleteBook = (req, res) => {
         })
         .catch(error => res.status(400).json({ error }));
 };
+
+// Récupération d'un livre spécifique par ID
+exports.getBookById = (req, res) => {
+    Book.findOne({ _id: req.params.id })
+        .then((book) => {
+            if (!book) {
+                return res.status(404).json({ message: 'Livre non trouvé!' });
+            }
+            res.status(200).send(book);
+        })
+        .catch(error => res.status(400).json({ error }));
+};
+
+// Récupération de tous les livres
+exports.getAllBooks = (req, res, next) => {
+    // Utilisation de la méthode find() pour obtenir tous les livres
+    // L'utilisation de populate() permet de récupérer également les informations de l'utilisateur qui a créé le livre (dans ce cas, l'email)
+    Book.find()
+        .populate('userId', 'email')
+        .then(books => res.status(200).json(books))
+        .catch(error => res.status(400).json({ error }));
+};
+
 
 // Notation d'un livre
 exports.rateBook = (req, res) => {

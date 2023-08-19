@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -14,6 +15,8 @@ const userSchema = new mongoose.Schema({        // le schéma pour ma bdd avec l
         required: true
     }
 });
+
+userSchema.plugin(uniqueValidator);
 
 // Hashage du mot de passe
 userSchema.pre('save', async function(next) {

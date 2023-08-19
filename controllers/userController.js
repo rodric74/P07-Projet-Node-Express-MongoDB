@@ -8,7 +8,10 @@ exports.signup = async (req, res) => {      // utilisation de async pr la clart�
         await user.save();                  // je save le user dans la base en async pr la gestion du temps. 
         res.status(201).send({ user});      // ça passe je renvois un 201
     }catch(err){
-        res.status(400).send({ error: err.message});  // ça casse je renvois un 400 
+        if (err.code === 11000) {           // Si email déjà utilisé. 
+            return res.status(400).send({ error: 'Error, please try again' });
+        }
+        res.status(400).send({ error: err.message });  
     }
 
 };
