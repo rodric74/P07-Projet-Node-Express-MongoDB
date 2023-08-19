@@ -1,4 +1,6 @@
 const Book = require('../models/Book');
+const fs = require('fs');
+
 
 exports.createBook = (req, res, next) => { 
     const bookObject = JSON.parse(req.body.book);
@@ -29,7 +31,7 @@ exports.updateBook = (req, res, next) => {
                 return res.status(404).json({ message: 'Livre non trouvé' });
             }
             if (book.userId != req.auth.userId) {
-                return res.status(403).json({ message: 'Not authorized' });
+                return res.status(401).json({ message: 'Not authorized' });
             }
             let previousImage = "";
             if (req.file) {
@@ -84,7 +86,9 @@ exports.getAllBooks = (req, res, next) => {
 };
 
 exports.rateBook = (req, res) => {
+    console.log(req.body);
     const grade = req.body.grade;
+    console.log("Grade:", grade);
     if (!grade || isNaN(grade) || grade < 0 || grade > 5) {
         return res.status(400).json({ message: 'Note invalide!' });
     }
