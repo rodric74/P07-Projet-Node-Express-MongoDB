@@ -6,17 +6,22 @@ const Book = require('../models/Book');
 exports.createBook = (req, res, next) => {
     console.log('Received book data:', req.body);
     console.log('User ID from authentication:', req.auth.userId);
-    // Analyse du corps de la requête pour obtenir les informations du livre
+    
     const bookObject = JSON.parse(req.body.book);
-    // Suppression des propriétés non nécessaires (si elles existent)
+    
+    // Suppression des propriétés non nécessaires
     delete bookObject._id;
     delete bookObject._userId;
-    // Création d'une nouvelle instance du modèle Book avec les informations reçues
+
+    // Si des notes sont fournies, je calcule la note moyenne, sinon initialisez à 0
+    const totalRatings = bookObject.ratings ? bookObject.ratings.reduce((acc, curr) => acc + curr.grade, 0) : 0;
+    const averageRating = bookObject.ratings ? totalRatings / bookObject.ratings.length : 0;
+
     const book = new Book({
         ...bookObject,
-        userId: req.auth.userId,  // Ajout de l'ID de l'utilisateur qui crée le livre (obtenu à partir du token JWT)
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,  // Génération de l'URL de l'image
-        averageRating:0
+        userId: req.auth.userId,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        averageRating: averageRating
     });
 
     // Sauvegarde du livre dans la base de données
@@ -27,6 +32,7 @@ exports.createBook = (req, res, next) => {
             res.status(400).json({ error, message: 'Error while saving book' });
         });
 };
+
 
 
 // Fonction pour mettre à jour un livre
@@ -130,28 +136,47 @@ exports.rateBook = (req, res) => {
                 return res.status(404).json({ message: 'Livre non trouvé!' });
             }
 
+            console.log("Livre trouvé:", book);  
+
             // je vérifie si l'utilisateur a déjà noté ce livre
             const userRating = book.ratings.find(rating => rating.userId.toString() === req.auth.userId);
             
             if (userRating) {
                 userRating.grade = grade; // Si l'utilisateur a déjà noté, je mets à jour sa note
+                console.log("Mise à jour de la note de l'utilisateur:", userRating);  
             } else {
                 // Sinon, j'ajoute une nouvelle note pour cet utilisateur
-                book.ratings.push({
+                const newRating = {
                     userId: req.auth.userId,
                     grade: grade
-                });
+                };
+                book.ratings.push(newRating);
+                console.log("Ajout d'une nouvelle note:", newRating);  
             }
 
             const totalRatings = book.ratings.reduce((acc, curr) => acc + curr.grade, 0);
+            console.log("Total des notes:", totalRatings, "Nombre de notes:", book.ratings.length);  
+
             book.averageRating = totalRatings / book.ratings.length;
 
+            console.log("Nouvelle note moyenne:", book.averageRating);  
+
             book.save()
-                .then(() => res.status(200).json({ message: 'Livre noté!' }))
-                .catch(error => res.status(400).json({ error }));
+                .then(() => {
+                    console.log("Livre sauvegardé avec succès avec la nouvelle note moyenne."); 
+                    res.status(200).json({ message: 'Livre noté!' });
+                })
+                .catch(error => {
+                    console.log("Erreur lors de la sauvegarde du livre:", error);  
+                    res.status(400).json({ error });
+                });
         })
-        .catch(error => res.status(400).json({ error }));
+        .catch(error => {
+            console.log("Erreur lors de la recherche du livre:", error);  
+            res.status(400).json({ error });
+        });
 };
+
 
 
 // Récupération des trois meilleurs livres en termes de notation
