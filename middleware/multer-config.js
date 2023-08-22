@@ -1,21 +1,45 @@
 const multer = require('multer');
+const path = require('path');
+const sharp = require('sharp');
 
 const MINE_TYPES = {
-    'image/jpg': 'jpg',
-    'image/jpeg': 'jpg',
-    'image/png': 'png'
+    'image/jpg': 'webp',
+    'image/jpeg': 'webp',
+    'image/png': 'webp'
 };
 
-const storage = multer.diskStorage({
-    destination: (req, file, callback) =>{
-        callback(null, 'images')
-    },
-    filename: (req, file, callback) => {
-        const name = file.originalname.split (' ').join('_');
-        const extension = MINE_TYPES[file.mimetype];
-        callback(null, name + Date.now()+'.'+extension);
+const storage = multer.memoryStorage();
 
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 5*1024*1024
     }
 });
 
-module.exports = multer({ storage }).single('image');
+module.exports = (req, res, next) => {
+    upload.single('image')(req, res, function (err) {
+        if (err) {
+            return res.status(500).json({ message: "Erreur lors de l'upload de l'image." });
+        }
+
+        if (!req.file) {
+            return next();
+        }
+
+        const filename = req.file.originalname.split(' ').join('_') + Date.now() + '.webp';
+
+        sharp(req.file.buffer)
+            .resize(463, 595)  // Redimensionnement de l'image à 463 x 595px pr correspondre à la maquette figma
+            .toFormat('webp', { quality: 80 })  // Conversion en webp avec 80% de qualité 
+            .toFile(path.join('images', filename), (err, info) => {
+                if (err) {
+                    return res.status(500).json({ message: "Erreur lors de la conversion de l'image." });
+                }
+                req.file.filename = filename;
+                next();
+            });
+    });
+};
+
+exports 
