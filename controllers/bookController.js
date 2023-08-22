@@ -16,7 +16,7 @@ exports.createBook = (req, res, next) => {
     });
     book.save()
         .then(() => res.status(201).json({ message: 'Livre enregistré !' }))
-        .catch(error => res.status(400).json({ error, message: 'Error while saving book' }));
+        .catch(error => res.status(400).json({ error, message: 'Erreur lors de la sauvegarde du livre' }));
 };
 
 exports.updateBook = (req, res, next) => {
@@ -58,14 +58,28 @@ exports.deleteBook = (req, res) => {
     Book.findOne({ _id: req.params.id })
         .then((book) => {
             if (book.userId != req.auth.userId) {
-                return res.status(401).json({ message: 'Not authorized' });
+                return res.status(401).json({ message: 'Pas autorisé' });
             }
-            Book.deleteOne({ _id: req.params.id })
-                .then(() => res.status(200).json({ message: 'Livre supprimé!' }))
-                .catch(error => res.status(400).json({ error }));
+
+            // Obtenir le nom de fichier de l'image à partir de l'URL
+            const filename = book.imageUrl.split('/images/')[1];
+            
+            // Supprimer l'image du système de fichiers
+            fs.unlink(`images/${filename}`, (err) => {
+                if (err) {
+                    console.error("Erreur Suppression Image:", err);
+                    return res.status(500).json({ error: "Erreur Suppression Image." });
+                }
+
+                // Supprimer le livre de la base de données
+                Book.deleteOne({ _id: req.params.id })
+                    .then(() => res.status(200).json({ message: 'Livre supprimé!' }))
+                    .catch(error => res.status(400).json({ error }));
+            });
         })
         .catch(error => res.status(400).json({ error }));
 };
+
 
 exports.getBookById = (req, res) => {
     Book.findOne({ _id: req.params.id })
