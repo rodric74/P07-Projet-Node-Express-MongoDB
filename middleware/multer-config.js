@@ -41,5 +41,4 @@ module.exports = (req, res, next) => {
             });
     });
 };
-
-exports 
+ 
