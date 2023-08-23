@@ -3,7 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 
 
-const userSchema = new mongoose.Schema({        // le schéma pour ma bdd avec les valeurs à true pour obliger ces paramètres. 
+const userSchema = new mongoose.Schema({       
     email: {
         type: String,
         required: true,

@@ -3,7 +3,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
+const helmet = require('helmet');
 
+app.use(
+    helmet({
+      crossOriginResourcePolicy: false,
+    })
+  );
 app.use(express.json());
 app.use('/images', express.static('images'));
 
