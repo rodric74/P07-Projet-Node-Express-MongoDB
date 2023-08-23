@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   bcrypt:
-    specifier: ^5.1.0
-    version: 5.1.0
+    specifier: ^5.1.1
+    version: 5.1.1
   cors:
     specifier: ^2.8.5
     version: 2.8.5
@@ -21,11 +21,11 @@ dependencies:
     specifier: ^9.0.1
     version: 9.0.1
   mongoose:
-    specifier: ^7.4.2
-    version: 7.4.2
+    specifier: ^7.4.4
+    version: 7.4.4
   mongoose-unique-validator:
     specifier: ^4.0.0
-    version: 4.0.0(mongoose@7.4.2)
+    version: 4.0.0(mongoose@7.4.4)
   multer:
     specifier: 1.4.5-lts.1
     version: 1.4.5-lts.1
@@ -47,7 +47,7 @@ packages:
       detect-libc: 2.0.2
       https-proxy-agent: 5.0.1
       make-dir: 3.1.0
-      node-fetch: 2.6.12
+      node-fetch: 2.6.13
       nopt: 5.0.0
       npmlog: 5.0.1
       rimraf: 3.0.2
@@ -58,8 +58,8 @@ packages:
       - supports-color
     dev: false
 
-  /@types/node@20.4.9:
-    resolution: {integrity: sha512-8e2HYcg7ohnTUbHk8focoklEQYvemQmu9M/f43DZVx43kHn0tE3BY/6gSDxS7k0SprtS0NHvj+L80cGLnoOUcQ==}
+  /@types/node@20.5.3:
+    resolution: {integrity: sha512-ITI7rbWczR8a/S6qjAW7DMqxqFMjjTo61qZVWJ1ubPvbIQsL5D/TvwjYEalM8Kthpe3hTzOGrF2TGbAu2uyqeA==}
     dev: false
 
   /@types/webidl-conversions@7.0.0:
@@ -69,7 +69,7 @@ packages:
   /@types/whatwg-url@8.2.2:
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
-      '@types/node': 20.4.9
+      '@types/node': 20.5.3
       '@types/webidl-conversions': 7.0.0
     dev: false
 
@@ -137,8 +137,8 @@ packages:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
     dev: false
 
-  /bcrypt@5.1.0:
-    resolution: {integrity: sha512-RHBS7HI5N5tEnGTmtR/pppX0mmDSBpQ4aCBsj7CEQfYXDcO74A8sIBYcJMuCsis2E81zDxeENYhv66oZwLiA+Q==}
+  /bcrypt@5.1.1:
+    resolution: {integrity: sha512-AGBHOG5hPYZ5Xl9KXzU5iKq9516yEmvCKDg3ecP5kX2aB6UqTeXZxk2ELnDgDm6BQSMlLt9rDB4LoSMx0rYwww==}
     engines: {node: '>= 10.0.0'}
     requiresBuild: true
     dependencies:
@@ -246,7 +246,7 @@ packages:
       normalize-path: 3.0.0
       readdirp: 3.6.0
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /chownr@1.1.4:
@@ -488,8 +488,8 @@ packages:
       - supports-color
     dev: false
 
-  /fast-fifo@1.3.1:
-    resolution: {integrity: sha512-VCs8H2h2kGIlCJhfDCxUjVfpSNDvyXxwwzCvVDuCFqkTko+0LMbjH4oy/QePbHLS2bsYoTERvGg8OFq29dRUMg==}
+  /fast-fifo@1.3.2:
+    resolution: {integrity: sha512-/d9sfos4yxzpwkDkuN7k2SqFKtYNmCTzgfEpz82x34IM9/zc8KGxQoXg1liNC/izpRM/MBdt44Nmx41ZWqk+FQ==}
     dev: false
 
   /fill-range@7.0.1:
@@ -539,8 +539,8 @@ packages:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
     dev: false
 
-  /fsevents@2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+  /fsevents@2.3.3:
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
@@ -902,7 +902,7 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose-unique-validator@4.0.0(mongoose@7.4.2):
+  /mongoose-unique-validator@4.0.0(mongoose@7.4.4):
     resolution: {integrity: sha512-lOvL7wOZ8wM2Kggk6zPZuglmld7hmzf6TdNk/h9EidTH9iZNLl3Y2ZgRPjYd/so1AODLawehY56roa6HjX6jew==}
     peerDependencies:
       mongoose: ^7.0.0
@@ -910,11 +910,11 @@ packages:
       lodash.foreach: 4.5.0
       lodash.get: 4.4.2
       lodash.merge: 4.6.2
-      mongoose: 7.4.2
+      mongoose: 7.4.4
     dev: false
 
-  /mongoose@7.4.2:
-    resolution: {integrity: sha512-sNolW2hyncwvWmZjIEIwAckjaSKtC1SE86zE1v2TKm3vPTRogZfBQf+3zLYYdrgrVTzoaoICieVpct9hjcn3EQ==}
+  /mongoose@7.4.4:
+    resolution: {integrity: sha512-LOOviiEqWOLH4PuBK+jbpm5vjBkdSNBcP/4UCevOJMTl5SXSbCXr68ulEYcthLcN2/xi08452HupKD8BfxNIQw==}
     engines: {node: '>=14.20.1'}
     dependencies:
       bson: 5.4.0
@@ -995,8 +995,8 @@ packages:
     resolution: {integrity: sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA==}
     dev: false
 
-  /node-fetch@2.6.12:
-    resolution: {integrity: sha512-C/fGU2E8ToujUivIO0H+tpQ6HWo4eEmchoPIoXtxCrVghxdKq+QOHqEZW7tuP3KlV3bC8FRMO5nMCC7Zm1VP6g==}
+  /node-fetch@2.6.13:
+    resolution: {integrity: sha512-StxNAxh15zr77QvvkmveSQ8uCQ4+v5FkvNTj0OESmiHu+VRi/gXArXtkWMElOsOUNLtUEvI4yS+rdtOHZTwlQA==}
     engines: {node: 4.x || >=6.0.0}
     peerDependencies:
       encoding: ^0.1.0
@@ -1375,7 +1375,7 @@ packages:
   /streamx@2.15.1:
     resolution: {integrity: sha512-fQMzy2O/Q47rgwErk/eGeLu/roaFWV0jVsogDmrszM9uIw8L5OA+t+V93MgYlufNptfjmYR1tOMWhei/Eh7TQA==}
     dependencies:
-      fast-fifo: 1.3.1
+      fast-fifo: 1.3.2
       queue-tick: 1.0.1
     dev: false
 
@@ -1451,7 +1451,7 @@ packages:
     resolution: {integrity: sha512-B/UyjYwPpMBv+PaFSWAmtYjwdrlEaZQEhMIBFNC5oEG8lpiW8XjcSdmEaClj28ArfKScKHs2nshz3k2le6crsg==}
     dependencies:
       b4a: 1.6.4
-      fast-fifo: 1.3.1
+      fast-fifo: 1.3.2
       streamx: 2.15.1
     dev: false
 
