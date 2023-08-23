@@ -6,7 +6,7 @@ const sharp = require('sharp');
 //     'image/jpg': 'webp',
 //     'image/jpeg': 'webp',
 //     'image/png': 'webp'
-// };TEST GITHU BUG
+// };TEST GITHU BUG tyest again and afian 
 
 const storage = multer.memoryStorage();
 
