@@ -8,7 +8,7 @@ passwordSchema
 .is().max(100)      // taille max                           
 // .has().uppercase()                     
 // .has().lowercase()                             
-// .has().digits()                               
+.has().digits(1)                               
 // .has().not().spaces()                          
 // .is().not().oneOf(['Passw0rd', 'Password123']); 
 
