@@ -6,11 +6,11 @@ const passwordSchema = new PasswordValidator();
 passwordSchema
 .is().min(8)       //taille mini du pass                            
 .is().max(100)      // taille max                           
-.has().uppercase(1)     //Une majuscule                        
-.has().lowercase()                             
-.has().digits()                               
-.has().not().spaces()                          
-.is().not().oneOf(['Passw0rd', 'Password123']); //les pass interdits. 
+// .has().uppercase()                     
+// .has().lowercase()                             
+// .has().digits()                               
+// .has().not().spaces()                          
+// .is().not().oneOf(['Passw0rd', 'Password123']); 
 
 module.exports = (req, res, next) => {
     const password = req.body.password;
