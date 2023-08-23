@@ -42,8 +42,8 @@ Je travaille actuellement sur ce projet et je valide étape par étape en suivan
 - [x] **Étape 1.1** : Créez un serveur Express simple - 20% de progression
 - [x] **Étape 1.2** : Créez une API RESTful - 40% de progression
 - [x] **Étape 1.3** : Mettez en place un système d'authentification sur votre application - 60% de progression
-- [ ] **Étape 1.4** : Ajoutez une gestion des fichiers utilisateur sur l'application - 80% de progression
+- [x] **Étape 1.4** : Ajoutez une gestion des fichiers utilisateur sur l'application - 80% de progression
 
 ### Étape 2 : Fonctionnalité de notation
-- [ ] **Étape 2.1** : Gestion de l’ajout d’une notation d’un livre - 90% de progression
-- [ ] **Étape 2.2** : Gestion du calcul de la note moyenne d’un livre - 100% de progression
+- [x] **Étape 2.1** : Gestion de l’ajout d’une notation d’un livre - 90% de progression
+- [x] **Étape 2.2** : Gestion du calcul de la note moyenne d’un livre - 100% de progression
