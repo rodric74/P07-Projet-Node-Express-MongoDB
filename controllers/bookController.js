@@ -7,13 +7,10 @@ exports.createBook = (req, res, next) => {
     delete bookObject._id;
     delete bookObject._userId;
     let averageRating = bookObject.averageRating ? bookObject.averageRating : 0;
-    // const totalRatings = bookObject.ratings ? bookObject.ratings.reduce((acc, curr) => acc + curr.grade, 0) : 0;
-    // const averageRating = bookObject.ratings ? totalRatings / bookObject.ratings.length : 0;
     const book = new Book({
         ...bookObject,
         userId: req.auth.userId,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-        // ratings: [],
         averageRating
     });
     console.log(book);
@@ -27,7 +24,6 @@ exports.updateBook = (req, res, next) => {
         ...JSON.parse(req.body.book),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
-    // delete bookObject._userId;
     Book.findOne({ _id: req.params.id })
         .then((book) => {
             if (!book) {
