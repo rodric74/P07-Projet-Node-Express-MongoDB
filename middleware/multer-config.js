@@ -2,11 +2,11 @@ const multer = require('multer');
 const path = require('path');
 const sharp = require('sharp');
 
-const MINE_TYPES = {
-    'image/jpg': 'webp',
-    'image/jpeg': 'webp',
-    'image/png': 'webp'
-};
+// const MINE_TYPES = {
+//     'image/jpg': 'webp',
+//     'image/jpeg': 'webp',
+//     'image/png': 'webp'
+// };
 
 const storage = multer.memoryStorage();
 
