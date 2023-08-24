@@ -13,7 +13,7 @@ exports.createBook = (req, res, next) => {
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         averageRating
     });
-    console.log(book);
+   
     book.save()
         .then(() => res.status(201).json({ message: 'Livre enregistré !' }))
         .catch(error => res.status(400).json({ error, message: 'Erreur lors de la sauvegarde du livre' }));
@@ -99,9 +99,9 @@ exports.getAllBooks = (req, res, next) => {
 };
 
 exports.rateBook = (req, res) => {
-    console.log(req.body);
+   
     const grade = parseFloat(req.body.rating);
-    console.log("Grade:", grade);
+  
     if (!grade) {
         return res.status(400).json({ message: 'La note est absente ou invalide.' });
     }
