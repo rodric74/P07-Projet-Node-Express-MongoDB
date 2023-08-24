@@ -25,12 +25,11 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 app.use(cors());
 
-// Importation des routes
-const authRoutes = require('./routes/authRoutes'); // Fusionné signup et login
-const booksRoute = require('./routes/book'); // Toutes les routes de livres sont maintenant ici
+// Importation des routes// Fusionné signup et login
+const booksRoute = require('./routes/book'); 
 
 // Utilisation des routes
-app.use('/api/auth', authRoutes); // Gère à la fois signup et login
-app.use('/api/books', booksRoute); // Gère toutes les routes liées aux livres
+app.use('/api/auth', authRoutes); 
+app.use('/api/books', booksRoute); 
 
 module.exports = app;
