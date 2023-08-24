@@ -27,6 +27,8 @@ app.use(cors());
 
 // Importation des routes// Fusionné signup et login
 const booksRoute = require('./routes/book'); 
+const authRoutes = require('./routes/authRoutes');
+
 
 // Utilisation des routes
 app.use('/api/auth', authRoutes); 
