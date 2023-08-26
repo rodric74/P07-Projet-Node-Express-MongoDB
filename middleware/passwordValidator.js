@@ -4,13 +4,11 @@ const passwordSchema = new PasswordValidator();
 
 // Définir les propriétés du mot de passe
 passwordSchema
-.is().min(8)       //taille mini du pass                            
-.is().max(100)      // taille max                           
-// .has().uppercase()                     
-// .has().lowercase()                             
-// .has().digits()                               
-// .has().not().spaces()                          
-// .is().not().oneOf(['Passw0rd', 'Password123']); 
+.is().min(8)                                                    
+.has().uppercase()                                                
+.has().digits(1)                               
+.has().not().spaces()                          
+
 
 module.exports = (req, res, next) => {
     const password = req.body.password;
