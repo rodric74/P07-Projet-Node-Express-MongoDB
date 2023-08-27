@@ -30,7 +30,7 @@ exports.updateBook = (req, res, next) => {
                 return res.status(404).json({ message: 'Livre non trouvé' });
             }
             if (book.userId != req.auth.userId) {
-                return res.status(401).json({ message: 'Not authorized' });
+                return res.status(401).json({ message: 'Pas autorisé' });
             }
             let previousImage = "";
             if (req.file) {

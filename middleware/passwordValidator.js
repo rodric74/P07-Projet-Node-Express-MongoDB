@@ -2,7 +2,6 @@ const PasswordValidator = require('password-validator');
 
 const passwordSchema = new PasswordValidator();
 
-// Définir les propriétés du mot de passe
 passwordSchema
 .is().min(8)                                                    
 .has().uppercase()                                                

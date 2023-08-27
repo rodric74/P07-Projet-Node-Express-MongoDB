@@ -13,7 +13,7 @@ app.use(
 app.use(express.json());
 app.use('/images', express.static('images'));
 
-// Connexion à MongoDB Atlas
+
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -25,13 +25,11 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 app.use(cors());
 
-// Importation des routes// Fusionné signup et login
-const booksRoute = require('./routes/book'); 
+
+const bookRoutes = require('./routes/bookRoutes'); 
 const authRoutes = require('./routes/authRoutes');
 
-
-// Utilisation des routes
 app.use('/api/auth', authRoutes); 
-app.use('/api/books', booksRoute); 
+app.use('/api/books', bookRoutes); 
 
 module.exports = app;

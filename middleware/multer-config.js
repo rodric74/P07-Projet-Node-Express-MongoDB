@@ -2,12 +2,6 @@ const multer = require('multer');
 const path = require('path');
 const sharp = require('sharp');
 
-// const MINE_TYPES = {
-//     'image/jpg': 'webp',
-//     'image/jpeg': 'webp',
-//     'image/png': 'webp'
-// };TEST GITHU BUG tyest again and afian 
-
 const storage = multer.memoryStorage();
 
 const upload = multer({
