@@ -80,64 +80,53 @@ exports.deleteBook = (req, res) => {
 };
 
 
-exports.getBookById = (req, res) => {
+exports.getBookById = (req, res, next) => {
     Book.findOne({ _id: req.params.id })
-        .then((book) => {
-            if (!book) {
-                return res.status(404).json({ message: 'Livre non trouvé!' });
-            }
-            res.status(200).send(book);
-        })
-        .catch(error => res.status(400).json({ error }));
-};
+      .then(book => res.status(200).json(book))
+      .catch(error => res.status(404).json({ error }));
+  };
 
 exports.getAllBooks = (req, res, next) => {
     Book.find()
-        .populate('userId', 'email')
         .then(books => res.status(200).json(books))
         .catch(error => res.status(400).json({ error }));
 };
 
 exports.rateBook = (req, res) => {
-   
     const grade = parseFloat(req.body.rating);
-  
-    if (!grade) {
-        return res.status(400).json({ message: 'La note est absente ou invalide.' });
+
+    if (isNaN(grade) || grade < 0 || grade > 5) {
+        return res.status(400).json({ message: 'La note est invalide.' });
     }
-    if (isNaN(grade)) {
-        return res.status(400).json({ message: 'La note n\'est pas un nombre.' });
-    }
-    if (grade < 0 || grade > 5) {
-        return res.status(400).json({ message: 'La note doit être comprise entre 0 et 5.' });
-    }
+
     Book.findOne({ _id: req.params.id })
-        .then((book) => {
+        .then(book => {
             if (!book) {
                 return res.status(404).json({ message: 'Livre non trouvé!' });
             }
+
             const userRating = book.ratings.find(rating => rating.userId.toString() === req.auth.userId);
             if (userRating) {
-                userRating.grade = grade;
-            } else {
-                const newRating = {
-                    userId: req.auth.userId,
-                    grade: grade
-                };
-                book.ratings.push(newRating);
+                return res.status(403).json({ message: 'Vous avez déjà noté ce livre. La modification de la note n\'est pas autorisée.' });
             }
+            book.ratings.push({
+                userId: req.auth.userId,
+                grade
+            });
+
             const totalRatings = book.ratings.reduce((acc, curr) => acc + curr.grade, 0);
-            book.averageRating = totalRatings / book.ratings.length;
-            book.save()
-                .then(() => {
-                    res.status(200).json(book);
-                })
-                .catch(error => {
-                    res.status(400).json({ error });
-                });
+            book.averageRating = Math.round(totalRatings / book.ratings.length);
+
+            return book.save();
         })
-        .catch(error => res.status(400).json({ error }));
+        .then(updatedBook => {
+            res.status(200).json(updatedBook);
+        })
+        .catch(error => {
+            res.status(400).json({ error });
+        });
 };
+
 
 exports.getBestRatedBooks = (req, res) => {
     Book.find().sort({ averageRating: -1 }).limit(3)
