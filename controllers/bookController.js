@@ -107,7 +107,7 @@ exports.rateBook = (req, res) => {
 
             const userRating = book.ratings.find(rating => rating.userId.toString() === req.auth.userId);
             if (userRating) {
-                return res.status(403).json({ message: 'Vous avez déjà noté ce livre. La modification de la note n\'est pas autorisée.' });
+                return res.status(403).json({ message: 'Vous avez déjà noté ce livre.' });
             }
             book.ratings.push({
                 userId: req.auth.userId,
