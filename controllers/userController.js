@@ -1,9 +1,15 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const validator = require ('validator');
 
 const User = require('../models/User')
 
 exports.signup = (req, res, next) => {
+    const email = req.body.email;
+    if (!validator.isEmail(email)) {
+        return res.status(400).json({ message: 'Adresse e-mail invalide' });
+    }
+
     bcrypt.hash(req.body.password, 10)
       .then(hash => {
         const user = new User({
