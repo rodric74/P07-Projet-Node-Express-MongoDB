@@ -17,11 +17,9 @@ app.use('/images', express.static('images'));
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-}).then(() => {
-   
-}).catch(err => {
-    console.error("Error connecting to MongoDB Atlas: ", err.message);
-});
+})
+.then(() => console.log('Connexion à MongoDB réussie !'))
+.catch((error) => console.log('Connexion à MongoDB échouée !', error));
 
 app.use(cors());
 
