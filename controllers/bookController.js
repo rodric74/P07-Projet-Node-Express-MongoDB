@@ -102,13 +102,14 @@ exports.rateBook = (req, res) => {
     Book.findOne({ _id: req.params.id })
         .then(book => {
             if (!book) {
-                return res.status(404).json({ message: 'Livre non trouvé!' });
+                throw new Error('Livre non trouvé!');
             }
 
             const userRating = book.ratings.find(rating => rating.userId.toString() === req.auth.userId);
             if (userRating) {
-                return res.status(403).json({ message: 'Vous avez déjà noté ce livre.' });
+                throw new Error('Vous avez déjà noté ce livre.');
             }
+
             book.ratings.push({
                 userId: req.auth.userId,
                 grade
@@ -123,9 +124,16 @@ exports.rateBook = (req, res) => {
             res.status(200).json(updatedBook);
         })
         .catch(error => {
-            res.status(400).json({ error });
+            if (error.message === 'Livre non trouvé!') {
+                res.status(404).json({ message: error.message });
+            } else if (error.message === 'Vous avez déjà noté ce livre.') {
+                res.status(403).json({ message: error.message });
+            } else {
+                res.status(400).json({ error });
+            }
         });
 };
+
 
 
 exports.getBestRatedBooks = (req, res) => {
