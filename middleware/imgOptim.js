@@ -24,7 +24,7 @@ module.exports = (req, res, next) => {
         const filename = req.file.originalname.split(' ').join('_') + Date.now() + '.webp';
 
         sharp(req.file.buffer)
-            .resize(463, 595)  // Redimensionnement de l'image à 463 x 595px pr correspondre à la maquette figma
+            .resize(463)  // Redimensionnement de l'image à 463 x 595px pr correspondre à la maquette figma
             .toFormat('webp', { quality: 80 })  // Conversion en webp avec 80% de qualité 
             .toFile(path.join('images', filename), (err, info) => {
                 if (err) {
