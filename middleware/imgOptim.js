@@ -14,7 +14,7 @@ const upload = multer({
 module.exports = (req, res, next) => {
     upload.single('image')(req, res, function (err) {
         if (err) {
-            return res.status(500).json({ message: "Erreur lors de l'upload de l'image." });
+            return res.status(500).json({ message: err.message});
         }
 
         if (!req.file) {
@@ -28,7 +28,7 @@ module.exports = (req, res, next) => {
             .toFormat('webp', { quality: 80 })  // Conversion en webp avec 80% de qualité 
             .toFile(path.join('images', filename), (err, info) => {
                 if (err) {
-                    return res.status(500).json({ message: "Erreur lors de la conversion de l'image." });
+                    return res.status(500).json({ message: err.message });
                 }
                 req.file.filename = filename;
                 next();
